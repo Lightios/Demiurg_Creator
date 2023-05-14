@@ -1,0 +1,17 @@
+<DragCard>:
+    # Define the properties for the DragLabel
+    drag_rectangle: self.x, self.y, self.width, self.height
+    drag_timeout: 10000000
+    drag_distance: 0
+    pos: 500, 500
+    style: "outlined"
+
+    size_hint: None, None
+    size: 200, 200
+    RelativeLayout:
+        Label:
+            text: root.text
+        MDIconButton:
+            text: "Press"
+            on_press: root.creator_screen.mark( root )
+            icon: "pencil-outline"
