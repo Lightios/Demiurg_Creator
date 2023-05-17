@@ -1,5 +1,18 @@
-CreatorScreen:
-    id: screen
+Screen:
+    MDNavigationLayout:
+        ScreenManager:
+            id: screen_manager
+
+            MenuScreen:
+                name: "menu"
+            CreatorScreen:
+                name: "creator"
+
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            ContentNavigationDrawer:
+
 
 
 <ItemConfirm>
@@ -8,3 +21,46 @@ CreatorScreen:
     CheckboxLeftWidget:
         id: check
         group: "check"
+
+
+<ContentNavigationDrawer>:
+    canvas.before:
+        Color:
+            rgba: rgba("#1E232E")
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    NavigationButton:
+        text: "New project"
+        pos_hint: {"x": 0.3, "center_y": 0.8}
+        on_press: app.root.ids.screen_manager.current = "creator"; app.root.ids.nav_drawer.set_state("close")
+
+    NavigationButton:
+        text: "Import"
+        pos_hint: {"x": 0.3, "center_y": 0.7}
+
+    NavigationButton:
+        text: "Export"
+        pos_hint: {"x": 0.3, "center_y": 0.6}
+
+    NavigationButton:
+        text: "Delete all"
+        pos_hint: {"x": 0.3, "center_y": 0.5}
+
+
+<NavigationButton@MDCard>:
+    size_hint: None, None
+    size: dp(150), dp(100)
+    md_bg_color: rgba("#1E232E")
+
+    RelativeLayout:
+        MDLabel:
+            pos_hint: {"center_y": 0.5}
+            font_size: dp(20)
+            font_name: "Nunito_bold"
+            text: root.text
+
+        MDIcon:
+            pos_hint: {"x": 0.8,"center_y": 0.5}
+            icon: "chevron-right"

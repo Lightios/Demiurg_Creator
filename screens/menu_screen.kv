@@ -1,0 +1,48 @@
+#:import rgba kivy.utils.get_color_from_hex
+
+<MenuScreen>:
+    canvas.before:
+        Color:
+            rgba: rgba("#101319")
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            canvas:
+                Color:
+                    rgba: rgba("#1E232E")
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+#            title: "Navigation Drawer"
+            elevation: 10
+#            left_action_items: [['menu', lambda x: app.root.ids.nav_drawer.set_state("open")]]
+#            on_action_button: app.callback(self.icon)
+#            md_bg_color: rgba("#1E232E")  # ?
+
+            RelativeLayout:
+                MDIconButton:
+                    icon: "menu"
+                    on_press: app.root.ids.nav_drawer.set_state("open")
+                    pos_hint: {"x": 0, "center_y": 1}
+
+                MDLabel:
+                    text: "DEMIURG"
+                    font_name: "Monoton"
+                    font_size: dp(40)
+                    pos_hint: {"x": 0.8, "center_y": 1}
+
+
+        Widget:  # needed for top bar to stay at the top
+
+    ProjectCard:
+        pos_hint: {"center_x": 0.5, "center_y": 0.65}
+
+    ProjectCard:
+        pos_hint: {"center_x": 0.5, "center_y": 0.45}
+
+    ProjectCard:
+        pos_hint: {"center_x": 0.5, "center_y": 0.25}

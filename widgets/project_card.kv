@@ -1,0 +1,49 @@
+<ProjectCard>:
+#    canvas.before:
+#        Color:
+#            rgba: 0, 1, 0, 1
+#        Rectangle:
+#            pos: self.pos
+#            size: self.size
+
+    size_hint: 0.4, 0.15
+    md_bg_color: 1, 1, 1, 0.05
+
+    RelativeLayout:
+        MDLabel:
+            text: "Project Title"
+            pos_hint: {"x": 0.28, "center_y": 0.75}
+            font_name: "Nunito_bold"
+            font_size: dp(20)
+            halign: "left"
+
+        MDLabel:
+            text: "Last modified: "
+            pos_hint: {"x": 0.28, "center_y": 0.2}
+            font_name: "Nunito"
+            font_size: dp(15)
+            halign: "left"
+
+        MDIcon:
+            icon: "file-document-outline"
+            pos_hint: {"center_x": 0.15, "center_y": 0.5}
+            font_size: dp(80)
+            specific_text_color: 1, 0, 0, 1
+
+        MDCard:
+            pos_hint: {"center_x": 0.05, "center_y": 0.6}
+            size: dp(25), dp(25)
+            size_hint: None, None
+            md_bg_color: 1, 1, 1, 0.05
+
+        MDCard:
+            md_bg_color: rgba("#BC96E6")
+            width: 400
+            height: 2
+            size_hint: None, None
+            pos_hint: {"center_x": 0.55, "center_y": 0.5}
+
+        MDIcon:
+            icon: "dots-vertical"
+            pos_hint: {"center_x": 0.05, "center_y": 0.6}
+            font_size: dp(20)
