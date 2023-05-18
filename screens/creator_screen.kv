@@ -81,29 +81,19 @@
             text: "Locations"
             font_size: dp(20)
 
-#    LocationMenu:
-#        id: location_menu
-#        size_hint: 0.1, None
-#        height: root.height - top_app_bar.height
-#        pos_hint: {"x": -0.5, "y": 0}  # it's hidden, can be showed with button
-
-    FloatLayout:
-        id: content
-        pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        size_hint: 0.6, 1
-
     Grid:
         id: grid
         pos_hint: {"x": 0.1, "y": 0}
         size_hint: 0.9, None
         height: root.height - top_app_bar.height
 
-        CardButton:
-            pos: 110, grid.height - 110
-            grid: grid
-            on_release: print(self.size); print(self.pos)
 
 
+
+#    FloatLayout:
+#        id: content
+#        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+#        size_hint: 0.6, 1
 #    RelativeLayout:
 #        canvas:
 #            Color:
