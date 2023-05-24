@@ -6,6 +6,7 @@ from kivy.uix.relativelayout import RelativeLayout
 from kivymd.app import MDApp
 from kivy.core.window import Window
 from kivymd.uix.card import MDCard
+from kivy.config import Config
 
 from screens.menu_screen import MenuScreen
 from screens.creator_screen import CreatorScreen
@@ -33,5 +34,8 @@ LabelBase.register(name='Nunito_bold', fn_regular='./assets/Nunito-Bold.ttf')
 Window.size = (1400, 800)
 Window.top = 10
 Window.left = 10
+
+
+Config.set('input', 'mouse', 'mouse,disable_multitouch')
 
 DemiurgApp().run()

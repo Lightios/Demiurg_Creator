@@ -1,0 +1,31 @@
+<LocationDialogContent>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: dp(400)
+    spacing: 20
+
+    MDTextField:
+        hint_text: "Name"
+        id: name
+
+    MDTextField:
+        hint_text: "Description"
+        mode: "rectangle"
+        multiline: True
+        size_hint_y: 1
+        max_height: dp(200)
+        id: description
+
+    LocationCheckbox:
+        text: "Start location"
+        id: start
+
+    LocationCheckbox:
+        text: "End location"
+        id: end
+
+    MDRectangleFlatIconButton:
+        text: "Delete"
+        icon: "delete"
+        line_color: 0, 0, 0, 0
+

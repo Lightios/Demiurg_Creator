@@ -1,5 +1,5 @@
 <Location>
-    md_bg_color: rgba("#BC96E6")
+    md_bg_color: "white" #rgba("#BC96E6")
     size_hint: None, None
     size: 200, 200
     style: "outlined"
@@ -7,6 +7,14 @@
     line_width: 4
 
     RelativeLayout:
-        Label:
+        Image:
+            id: background_image
+            source: root.image_sources[3]
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            text: "New location"
+            allow_stretch: True
+            keep_ratio: True
+
+        Label:
+            id: label
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            text: root.name
