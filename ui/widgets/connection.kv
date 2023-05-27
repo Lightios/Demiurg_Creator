@@ -4,13 +4,15 @@
     size: 0, 0
 
     FloatLayout:
-
-        MDIcon:
-            icon_size: dp(30)
+        ConnectionIcon:
             pos_hint: {"center_x": 0.33, "center_y": 0.33}
             id: first
 
-        MDIcon:
-            icon_size: dp(30)
+        ConnectionIcon:
             pos_hint: {"center_x": 0.66, "center_y": 0.66}
             id: second
+
+<ConnectionIcon>:
+    icon_size: dp(30)
+    theme_icon_color: "Custom"
+    icon_color: 0.6, 0.6, 0.6, 1

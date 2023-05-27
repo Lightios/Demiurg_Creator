@@ -51,11 +51,13 @@
                     text_color: 1, 1, 1, 1
                     font_size: dp(20)
 
-                Label:
+                MDTextField:
                     pos_hint: {"center_x": .5, "center_y": 1}
                     text: "Project title"
                     font_size: dp(30)
                     font_name: "Nunito"
+                    size_hint_x: 0.2
+                    id: project_title_label
 
         Widget:  # needed for top bar to stay at the top
 
@@ -70,61 +72,20 @@
         size_hint: 0.1, None
         height: root.height - top_app_bar.height
 
-        MDIconButton:
-            icon: "map-outline"
-            pos_hint: {"center_x": 0.5, "center_y": 0.8}
-            font_size: dp(80)
-            on_press: location_menu.change
-        Label:
-            font_name: "Nunito"
-            pos_hint: {"center_x": 0.5, "center_y": 0.74}
-            text: "Locations"
-            font_size: dp(20)
+#        MDIconButton:
+#            icon: "content-save"
+#            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+#            font_size: dp(80)
+#            on_press: app.save_project(project_title_label, grid)
+#        Label:
+#            font_name: "Nunito"
+#            pos_hint: {"center_x": 0.5, "center_y": 0.14}
+#            text: "Save project"
+#            font_size: dp(20)
 
     Grid:
         id: grid
         pos_hint: {"x": 0.1, "y": 0}
         size_hint: 0.9, None
         height: root.height - top_app_bar.height
-
-
-
-
-#    FloatLayout:
-#        id: content
-#        pos_hint: {"center_x": 0.5, "center_y": 0.5}
-#        size_hint: 0.6, 1
-#    RelativeLayout:
-#        canvas:
-#            Color:
-#                rgba: 0.09, 0.09, 0.09, 1
-#            Rectangle:
-#                pos: self.pos
-#                size: self.size
-#
-#        pos_hint: {"center_x": 0.9, "center_y": 0.5}
-#        size_hint: 0.2, 1
-#
-#        cols: 1
-#
-#        MDLabel:
-#            pos_hint: {"center_x": 0.5, "center_y": 0.9}
-#            text: "Options"
-#            color: "white"
-#            halign: "center"
-#            font_size: dp(35)
-#
-#        MDLabel:
-#            pos_hint: {"center_x": 0.5, "center_y": 0.75}
-#            text: "Name"
-#            color: "white"
-#            halign: "center"
-#
-#        MDTextField:
-#            pos_hint: {"center_x": 0.5, "center_y": 0.7}
-#            size_hint_x: 0.5
-#            on_text: root.on_text(self.text)
-#            id: input
-#            disabled: True
-
 

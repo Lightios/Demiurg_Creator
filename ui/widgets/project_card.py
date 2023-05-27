@@ -3,7 +3,7 @@ from kivymd.uix.behaviors import HoverBehavior
 from kivymd.uix.card import MDCard
 
 
-Builder.load_file('widgets/project_card.kv')
+Builder.load_file('ui/widgets/project_card.kv')
 
 
 class ProjectCard(MDCard):

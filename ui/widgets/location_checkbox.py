@@ -2,7 +2,7 @@ from kivy.lang import Builder
 from kivymd.uix.button import MDRectangleFlatIconButton
 
 
-Builder.load_file('widgets/location_checkbox.kv')
+Builder.load_file('ui/widgets/location_checkbox.kv')
 
 
 class LocationCheckbox(MDRectangleFlatIconButton):

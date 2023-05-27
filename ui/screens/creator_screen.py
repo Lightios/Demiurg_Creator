@@ -3,14 +3,12 @@ from kivy.lang import Builder
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
-# from widgets.connection import ItemConfirm, Connection
-# from widgets.drag_card import DragCard
-from widgets.button_location import ButtonLocation
-from widgets.grid import Grid
-from widgets.location import Location
+from ui.widgets.button_location import ButtonLocation
+from ui.widgets.grid import Grid
+from ui.widgets.location import Location
 
 
-Builder.load_file('screens/creator_screen.kv')
+Builder.load_file('ui/screens/creator_screen.kv')
 
 
 class CreatorScreen(MDScreen):

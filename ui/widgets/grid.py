@@ -1,12 +1,12 @@
 from kivy.graphics import Color, Line
 from kivy.lang import Builder
 from kivy.uix.relativelayout import RelativeLayout
-from widgets.location import Location
-from widgets.connection import Connection
-from widgets.button_location import ButtonLocation
+from ui.widgets.location import Location
+from ui.widgets.connection import Connection
+from ui.widgets.button_location import ButtonLocation
 from typing import List, Dict, Tuple
 
-Builder.load_file('widgets/grid.kv')
+Builder.load_file('ui/widgets/grid.kv')
 
 OFFSET = 10
 LOCATION_SIZE = 200
@@ -16,12 +16,14 @@ class Grid(RelativeLayout):
     vertical_lines: List[Line]
     horizontal_lines: List[Line]
     locations: Dict[Tuple[int, int], Location | ButtonLocation]
+    start_location: Location | None
 
     def __init__(self, **kw):
         super().__init__(**kw)
 
         self.init_lines()
         self.locations = dict()
+        self.start_location = None
 
     def init_lines(self):
         with self.canvas:
@@ -54,9 +56,14 @@ class Grid(RelativeLayout):
         self.locations[(row, column)] = location
         self.add_widget(location)
 
-        for x, y in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        # check all neighbours for created location
+        for x, y, direction in ((1, 0, "right"), (-1, 0, "left"), (0, 1, "down"), (0, -1, "up")):
             new_row = row + y
             new_column = column + x
+
+            # dont go outside the grid
+            if new_row < 0 or new_column < 0:
+                continue
 
             if not (new_row, new_column) in self.locations:
                 new_button = ButtonLocation(row=new_row, column=new_column, pos=button.pos, grid=self)
@@ -69,12 +76,10 @@ class Grid(RelativeLayout):
                 self.add_widget(new_button)
 
             elif type(self.locations[(new_row, new_column)]) == Location:
-                connection = Connection(direction=(x, y), source=location,
+                connection = Connection(direction=direction, source=location,
                                         destination=self.locations[(new_row, new_column)], pos=location.pos)
 
                 self.add_widget(connection)
 
         self.remove_widget(button)
         del button
-
-

@@ -4,9 +4,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
 
-from widgets.location_checkbox import LocationCheckbox
+from ui.widgets.location_checkbox import LocationCheckbox
 
-Builder.load_file('widgets/location_dialog_content.kv')
+Builder.load_file('ui/widgets/location_dialog_content.kv')
 
 
 # menu_items = [

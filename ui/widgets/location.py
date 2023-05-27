@@ -6,33 +6,42 @@ from kivymd.uix.card import MDCard
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.label import MDLabel
 from kivymd.uix.menu import MDDropdownMenu
+from typing import Dict
+from uuid import uuid4, UUID
+from kivymd.toast import toast
 
-Builder.load_file('widgets/location.kv')
+from ui.widgets.connection import Connection
+from ui.widgets.location_dialog_content import LocationDialogContent
 
-from widgets.location_dialog_content import LocationDialogContent
+Builder.load_file('ui/widgets/location.kv')
 
 
 class Location(MDCard):
     image_sources = [
-        "assets/locations/start_end_location_shape.png",
-        "assets/locations/start_location_shape.png",
-        "assets/locations/end_location_shape.png",
-        "assets/locations/location_shape.png",
+        "ui/assets/locations/start_end_location_shape.png",
+        "ui/assets/locations/start_location_shape.png",
+        "ui/assets/locations/end_location_shape.png",
+        "ui/assets/locations/location_shape.png",
     ]
 
     background_image = StringProperty()
-    name = StringProperty("New Location")
     description: str = ""
+    dialog: MDDialog | None = None
+    exits: Dict  # [str, Location | None]
+    location_id: UUID  # can't be called "id" because it's reserved by Kivy
     is_start: bool = False
     is_end: bool = False
-    column: int
+    name = StringProperty("New Location")
+
     row: int
+    column: int
 
     def __init__(self, button, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.column = button.column
         self.row = button.row
-        self.dialog: MDDialog | None = None
+        self.exits = {"N": None, "E": None, "S": None, "W": None}
+        self.location_id = uuid4()
 
     def on_touch_down(self, touch):
         if touch.button == "right":
@@ -65,7 +74,14 @@ class Location(MDCard):
         self.name = self.dialog.content_cls.ids.name.text
         self.description = self.dialog.content_cls.ids.description.text
 
-        self.is_start = self.dialog.content_cls.ids.start.marked
+        if self.dialog.content_cls.ids.start.marked:
+            if self.parent.start_location is None:
+                self.is_start = self.dialog.content_cls.ids.start.marked
+                self.parent.start_location = self
+            else:
+                toast("Can't set more than one start location")
+                return
+
         self.is_end = self.dialog.content_cls.ids.end.marked
 
         self.dialog.dismiss()
@@ -73,12 +89,12 @@ class Location(MDCard):
         self.ids.label.text = self.name
 
         if self.is_start and self.is_end:
-            self.ids.background_image.source = self.image_sources[0]
+            self.ids.background_image.source = Location.image_sources[0]
         elif self.is_start:
-            self.ids.background_image.source = self.image_sources[1]
+            self.ids.background_image.source = Location.image_sources[1]
         elif self.is_end:
-            self.ids.background_image.source = self.image_sources[2]
+            self.ids.background_image.source = Location.image_sources[2]
         else:
-            self.ids.background_image.source = self.image_sources[3]
+            self.ids.background_image.source = Location.image_sources[3]
 
 
