@@ -46,8 +46,8 @@ class ConnectionIcon(MDIconButton):
     source: 'Location'
     destination: 'Location'
 
-    ACTIVE_COLOR = (1, 1, 1, 1)
-    INACTIVE_COLOR = (0.6, 0.6, 0.6, 0.6)
+    ACTIVE_COLOR = ( 1, 1, 1, 1)
+    INACTIVE_COLOR = (0.6,0.6,0.6, 0.6)
 
     # we need right, left etc. naming for icons, but in JSON there are N, S, etc.
     direction_to_letter = {"right": "E", "left": "N", "up": "N", "down": "S"}
