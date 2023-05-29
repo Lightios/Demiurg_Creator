@@ -68,24 +68,20 @@ class Location(MDCard):
                 self.dialog.open()
 
     def delete(self):
-        print(1234)
+        self.parent.delete_location(self)
+        self.dialog.dismiss()
 
     def confirm(self):
+        can_proceed = self.check_start()
+
+        if not can_proceed:
+            return
+
+        self.is_end = self.dialog.content_cls.ids.end.marked
         self.name = self.dialog.content_cls.ids.name.text
         self.description = self.dialog.content_cls.ids.description.text
 
-        if self.dialog.content_cls.ids.start.marked:
-            if self.parent.start_location is None:
-                self.is_start = self.dialog.content_cls.ids.start.marked
-                self.parent.start_location = self
-            else:
-                toast("Can't set more than one start location")
-                return
-
-        self.is_end = self.dialog.content_cls.ids.end.marked
-
         self.dialog.dismiss()
-
         self.ids.label.text = self.name
 
         if self.is_start and self.is_end:
@@ -97,4 +93,22 @@ class Location(MDCard):
         else:
             self.ids.background_image.source = Location.image_sources[3]
 
+    def check_start(self):
+        # trying to mark as new start location
+        if self.dialog.content_cls.ids.start.marked and not self.is_start:
+            if self.parent.start_location is None:
+                self.is_start = self.dialog.content_cls.ids.start.marked
+                self.parent.start_location = self
+                return True
+            else:
+                toast("Can't set more than one start location")
+                return False
 
+        # unmarking
+        if not self.dialog.content_cls.ids.start.marked and self.is_start:
+            self.parent.start_location = None
+            self.is_start = False
+            return True
+
+        # didn't do anything
+        return True

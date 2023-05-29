@@ -8,12 +8,14 @@
         ConnectionIcon:
             pos_hint: {"center_x": 0.33, "center_y": 0.33}
             id: first
+            card: root
 
         ConnectionIcon:
             pos_hint: {"center_x": 0.66, "center_y": 0.66}
             id: second
+            card: root
 
 <ConnectionIcon>:
-    icon_size: dp(80)
+    icon_size: pt(38)
     theme_icon_color: "Custom"
-    icon_color: 0.6, 0.6, 0.6, 0.6
+    icon_color: root.INACTIVE_COLOR

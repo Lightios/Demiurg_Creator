@@ -60,6 +60,8 @@ class LocationDialogContent(BoxLayout):
 
         self.ids.name.text = location.name
         self.ids.description.text = location.description
+        self.location = location
+
         if location.is_start:
             self.ids.start.on_press()
 

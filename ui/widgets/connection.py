@@ -1,4 +1,5 @@
 from kivy.lang import Builder
+from kivy.properties import ColorProperty, ObjectProperty
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.card import MDCard
 
@@ -45,12 +46,13 @@ class ConnectionIcon(MDIconButton):
     direction: str
     source: 'Location'
     destination: 'Location'
+    card: ObjectProperty(None)
 
-    ACTIVE_COLOR = ( 1, 1, 1, 1)
-    INACTIVE_COLOR = (0.6,0.6,0.6, 0.6)
+    ACTIVE_COLOR = ColorProperty((1, 1, 1, 1))
+    INACTIVE_COLOR = ColorProperty((0.6, 0.6, 0.6, 0.6))
 
     # we need right, left etc. naming for icons, but in JSON there are N, S, etc.
-    direction_to_letter = {"right": "E", "left": "N", "up": "N", "down": "S"}
+    direction_to_letter = {"right": "E", "left": "W", "up": "N", "down": "S"}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -66,10 +68,10 @@ class ConnectionIcon(MDIconButton):
 
     def on_press(self):
         if self.is_active:
-            self.icon_color = ConnectionIcon.INACTIVE_COLOR
+            self.icon_color = self.INACTIVE_COLOR
             self.source.exits[self.direction] = None
         else:
-            self.icon_color = ConnectionIcon.ACTIVE_COLOR
+            self.icon_color = self.ACTIVE_COLOR
             self.source.exits[self.direction] = self.destination
 
         self.is_active = not self.is_active
