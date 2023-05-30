@@ -52,9 +52,10 @@ class UI(MDApp):
         
         # TODO: handle cancel
 
-        path = path[0] if path[0].endswith(".json") else path[0] + ".json"  # filechooser returns a list, so we take [0]
-        self.runtime.save_project(project_title_label.text, locations,
-                                  str(grid.start_location.location_id.int), path)
+        if path:
+            path = path[0] if path[0].endswith(".json") else path[0] + ".json"  # filechooser returns a list, so we take [0]
+            self.runtime.save_project(project_title_label.text, locations,
+                                      str(grid.start_location.location_id.int), path)
 
 
 class NavigationButton(MDCard):

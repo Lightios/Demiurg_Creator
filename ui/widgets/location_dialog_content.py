@@ -29,6 +29,7 @@ class LocationDialogContent(BoxLayout):
         for key, value in location.exits.items():
             if value is not None:
                 exit_card = ExitCard(direction=key)
+                exit_card.ids.text_field.text = location.exit_descriptions[key]
                 self.ids.stack.add_widget(exit_card)
 
 
