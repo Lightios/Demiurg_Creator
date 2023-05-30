@@ -49,8 +49,6 @@ class UI(MDApp):
 
         path = filechooser.save_file(title="Select save location",
                                      filters=[(".json", "*.json")])
-        
-        # TODO: handle cancel
 
         if path:
             path = path[0] if path[0].endswith(".json") else path[0] + ".json"  # filechooser returns a list, so we take [0]
