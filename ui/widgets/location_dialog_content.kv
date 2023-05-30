@@ -1,7 +1,7 @@
 <LocationDialogContent>:
     orientation: "vertical"
     size_hint_y: None
-    height: dp(400)
+    height: dp(550)
     spacing: 20
 
     MDTextField:
@@ -24,9 +24,43 @@
         text: "End location"
         id: end
 
+    MDLabel:
+        text: "Exits:"
+        size_hint_y: 0.2
+
+    ScrollView:
+        size_hint_y: None
+        height: dp(150)
+
+        StackLayout:
+            spacing: dp(20)
+            size_hint_y: None
+            height: self.minimum_height
+            id: stack
+            padding: (5, 5, 0, 0)
+
     MDRectangleFlatIconButton:
         text: "Delete"
         icon: "delete"
         line_color: 0, 0, 0, 0
         on_press: root.location.delete()
 
+
+<ExitCard>:
+    size_hint: 1, None
+    height: dp(100)
+    md_bg_color: rgba("#1E232E")
+
+    FloatLayout:
+        MDLabel:
+            text: root.text
+            pos_hint: {"x": 0.05, "center_y": 0.85}
+            bold: True
+        MDLabel:
+            text: "Label: "
+            pos_hint: {"x": 0.1, "center_y": 0.4}
+
+        MDTextField:
+            pos_hint: {"x": 0.23, "center_y": 0.4}
+            size_hint_x: 0.6
+            id: text_field

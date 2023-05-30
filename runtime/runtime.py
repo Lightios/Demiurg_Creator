@@ -49,9 +49,13 @@ class Runtime(IRuntime):
 
             for exit, destination in location.exits.items():
                 if destination is not None:
+                    description = location.exit_descriptions[exit]
+                    if description == "":
+                        description = "Go " + exit
+
                     loc_dict["exits"][exit] = {
                         "location_id": f"{destination.location_id.int}",
-                        "text": "Go " + exit
+                        "text": description
                     }
 
             dictionary["map"]["locations"][location.location_id.int] = loc_dict

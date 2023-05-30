@@ -28,6 +28,7 @@ class Location(MDCard):
     description: str = ""
     dialog: MDDialog | None = None
     exits: Dict  # [str, Location | None]
+    exit_descriptions: Dict[str, str]
     location_id: UUID  # can't be called "id" because it's reserved by Kivy
     is_start: bool = False
     is_end: bool = False
@@ -41,6 +42,7 @@ class Location(MDCard):
         self.column = button.column
         self.row = button.row
         self.exits = {"N": None, "E": None, "S": None, "W": None}
+        self.exit_descriptions = {"N": "", "E": "", "S": "", "W": ""}
         self.location_id = uuid4()
 
     def on_touch_down(self, touch):
@@ -80,6 +82,10 @@ class Location(MDCard):
         self.is_end = self.dialog.content_cls.ids.end.marked
         self.name = self.dialog.content_cls.ids.name.text
         self.description = self.dialog.content_cls.ids.description.text
+
+        for card in self.dialog.content_cls.ids.stack.children:
+            description = card.ids.text_field.text
+            self.exit_descriptions[card.direction] = description
 
         self.dialog.dismiss()
         self.ids.label.text = self.name

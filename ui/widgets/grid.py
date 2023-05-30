@@ -165,7 +165,7 @@ class Grid(RelativeLayout):
             if len(locations) > 1:
                 current = locations[1]
             else:
-                return False
+                return True
 
         to_visit = [current]
         visited = set()
