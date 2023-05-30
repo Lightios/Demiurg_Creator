@@ -15,7 +15,7 @@ LOCATION_SIZE = 200
 
 
 def get_opposite_direction(direction: str):
-    return {"left": "right", "up": "down", "right": "left", "down": "up"}[direction]
+    return {"E": "W", "N": "S", "W": "E", "S": "N"}[direction]
 
 
 class Grid(RelativeLayout):
@@ -111,7 +111,7 @@ class Grid(RelativeLayout):
         self.add_widget(button)
 
         # check neighbours
-        for x, y, direction in ((1, 0, "right"), (-1, 0, "left"), (0, 1, "down"), (0, -1, "up")):
+        for x, y, direction in ((1, 0, "E"), (-1, 0, "W"), (0, 1, "S"), (0, -1, "N")):
             new_row = location.row + y
             new_column = location.column + x
 
@@ -127,7 +127,7 @@ class Grid(RelativeLayout):
                         temp_column = new_column + temp_x
 
                         if (temp_row, temp_column) in self.locations:
-                            if type(self.locations[(new_row, new_column)]) == Location:
+                            if type(self.locations[(temp_row, temp_column)]) == Location:
                                 found_location = True
 
                     if not found_location:
@@ -135,7 +135,9 @@ class Grid(RelativeLayout):
                         self.locations.pop((new_row, new_column))
 
                 elif type(item) == Location:
-                    item.exits[get_opposite_direction(direction)] = None
+                    opposite_direction = get_opposite_direction(direction)
+                    item.exits[opposite_direction] = None
+                    item.exit_descriptions[opposite_direction] = ""
 
                     # remove connection
                     tuple_key = ((location.row, location.column), (new_row, new_column))
