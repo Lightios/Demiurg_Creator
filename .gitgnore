@@ -1,5 +1,0 @@
-*.pyc
-ui/__pycache__/
-ui/screens/__pycache__/
-ui/widgets/__pycache__/
-runtime/__pycache__/
