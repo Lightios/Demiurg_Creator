@@ -14,5 +14,4 @@ Builder.load_file('ui/screens/creator_screen.kv')
 class CreatorScreen(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.marked_card = None
 

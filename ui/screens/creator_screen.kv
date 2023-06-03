@@ -83,9 +83,15 @@
 #            text: "Save project"
 #            font_size: dp(20)
 
-    Grid:
-        id: grid
+
+    ScrollView:
+        id: scroll
         pos_hint: {"x": 0.1, "y": 0}
         size_hint: 0.9, None
         height: root.height - top_app_bar.height
+
+        Grid:
+            id: grid
+            size_hint: None, None
+            size: scroll.size
 

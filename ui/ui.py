@@ -55,6 +55,9 @@ class UI(MDApp):
             self.runtime.save_project(project_title_label.text, locations,
                                       str(grid.start_location.location_id.int), path)
 
+    def delete_all(self):
+        grid = self.root.ids.creator_screen.ids.grid
+        grid.delete_all()
 
 class NavigationButton(MDCard):
     text = StringProperty()

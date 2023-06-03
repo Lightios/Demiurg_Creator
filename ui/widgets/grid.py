@@ -26,6 +26,8 @@ class Grid(RelativeLayout):
     # like edges in graph, first tuple is row and column of one location
     # second tuple is row and column of second location
     connections: Dict[Tuple[Tuple[int, int], Tuple[int, int]], Connection]
+    row_counter: Dict  # counts how many elements are in each row (to know when grid should be expanded)
+    column_counter: Dict  # same as above
 
     start_location: Location | None
 
@@ -37,23 +39,29 @@ class Grid(RelativeLayout):
         self.start_location = None
         self.connections = dict()
 
+        self.row_counter = {0: 1}  # there's a button when grid is initialized
+        self.column_counter = {0: 1}  # ^
+
+        self.max_row_quantity: int = 7
+        self.max_column_quantity: int = 4
+
     def init_lines(self):
         with self.canvas:
             Color(1, 1, 1)
-            self.horizontal_lines = [Line(points=(0, 0, 0, self.height)) for _ in range(8)]
-            self.vertical_lines = [Line(points=(0, 0, 0, self.height)) for _ in range(9)]
+            self.horizontal_lines = [Line() for _ in range(12)]
+            self.vertical_lines = [Line() for _ in range(12)]
 
     def on_size(self, *args):
         self.update_lines()
 
     def update_lines(self):
-        for i, line in enumerate(self.vertical_lines):
-            width = LOCATION_SIZE * i + OFFSET
-            line.points = (width, 0, width, self.height)
-
         for i, line in enumerate(self.horizontal_lines):
             height = self.height - (LOCATION_SIZE * i + OFFSET)
-            line.points = (0, height, self.width, height)
+            line.points = (0, height, self.width + LOCATION_SIZE * 5, height)
+
+        for i, line in enumerate(self.vertical_lines):
+            width = LOCATION_SIZE * i + OFFSET
+            line.points = (width, 0 - LOCATION_SIZE * 5, width, self.height)
 
     def add_location(self, button):
         location = Location(button)
@@ -86,6 +94,7 @@ class Grid(RelativeLayout):
 
                 self.locations[(new_row, new_column)] = new_button
                 self.add_widget(new_button)
+                self.update_counters(new_row, new_column, True)
 
             elif type(self.locations[(new_row, new_column)]) == Location:
                 item = self.locations[(new_row, new_column)]
@@ -186,3 +195,64 @@ class Grid(RelativeLayout):
                         to_visit.append(item)
 
         return len(visited) == len(locations) - 1
+
+    def delete_all(self):
+        self.start_location = None
+
+        for location in self.locations.values():
+            self.remove_widget(location)
+
+        for connection in self.connections.values():
+            self.remove_widget(connection)
+
+        button = ButtonLocation(0, 0)
+        button.pos = 110 - button.width // 2, self.height - 110 - button.height // 2
+        button.grid = self
+        self.add_widget(button)
+
+        self.locations = {}
+        self.connections = {}
+
+    def update_counters(self, row: int, column: int, added: bool):
+        """
+        :param row: row of item
+        :param column: column of item
+        :param added: True if item was added, otherwise False
+        :return: None
+        """
+
+        value = 1 if added else -1
+
+        if row in self.row_counter:
+            self.row_counter[row] += value
+        else:
+            self.row_counter[row] = 1
+
+        if column in self.column_counter:
+            self.column_counter[column] += value
+        else:
+            self.column_counter[column] = 1
+
+        if max(self.row_counter.values()) > self.max_row_quantity:
+            self.max_row_quantity = max(self.row_counter.values())
+            with self.canvas:
+                Color(1, 1, 1)
+                self.vertical_lines.append(Line())
+            self.width += LOCATION_SIZE
+            self.update_lines()
+
+        if max(self.column_counter.values()) > self.max_column_quantity:
+            self.max_column_quantity = max(self.column_counter.values())
+            with self.canvas:
+                Color(1, 1, 1)
+                self.horizontal_lines.append(Line())
+            self.height += LOCATION_SIZE
+            self._move_items_up()
+            self.update_lines()
+
+    def _move_items_up(self):
+        for item in self.locations.values():
+            item.pos[1] += LOCATION_SIZE
+
+        for connection in self.connections.values():
+            connection.pos[1] += LOCATION_SIZE
