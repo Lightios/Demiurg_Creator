@@ -205,21 +205,20 @@ class Grid(RelativeLayout):
         for connection in self.connections.values():
             self.remove_widget(connection)
 
-        button = ButtonLocation(0, 0)
+        self.row_counter = {0: 1}
+        self.column_counter = {0: 1}
+        self.max_row_quantity: int = 7
+        self.max_column_quantity: int = 4
+
+        self.parent.scroll_x, self.parent.scroll_y = 0, 0
+        self.size = self.parent.size
+
+        button = ButtonLocation(0, 0, grid=self)
         button.pos = 110 - button.width // 2, self.height - 110 - button.height // 2
-        button.grid = self
         self.add_widget(button)
 
-        self.locations = {}
+        self.locations = {(0, 0): button}
         self.connections = {}
-
-        # TODO: consider restarting position
-        # self.row_counter = {0: 1}
-        # self.column_counter = {0: 1}
-        # self.max_row_quantity: int = 7
-        # self.max_column_quantity: int = 4
-
-        self.size = self.parent.size
 
     def update_counters(self, row: int, column: int, added: bool):
         """

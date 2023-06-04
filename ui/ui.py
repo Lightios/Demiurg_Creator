@@ -128,8 +128,7 @@ class UI(MDApp):
         path = filechooser.save_file(title="Select save location", filters=[(".json", "*.json")])
 
         if path:
-            path = path[0] if path[0].endswith(".json") else path[
-                                                                 0] + ".json"  # filechooser returns a list, so we take [0]
+            path = path[0] if path[0].endswith(".json") else path[0] + ".json"  # filechooser returns a list, so we take [0]
             self.runtime.export_game(project_title_label.text, locations,
                                      str(grid.start_location.location_id.int), path)
 
