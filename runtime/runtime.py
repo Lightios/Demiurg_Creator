@@ -4,7 +4,7 @@ import json
 
 from runtime.i_runtime import IRuntime
 from ui.ui import UI
-
+from ui.widgets.location import Location
 
 
 @dataclass
@@ -22,7 +22,7 @@ class Runtime(IRuntime):
         self.ui = UI(self)
         self.ui.run()
 
-    def save_project(self, title: str, locations: Dict, start_location_id: str, path: str):
+    def export_game(self, title: str, locations: Dict, start_location_id: str, path: str):
         dictionary = {
             "metadata": {
                 "title": title,
@@ -66,3 +66,85 @@ class Runtime(IRuntime):
         # Writing to sample.json
         with open(path, "w") as outfile:
             outfile.write(json_object)
+
+    def save_project(self, metadata: dict, grid, path: str):
+        dictionary = {
+            "metadata": {
+                "title": metadata["title"],
+                "author": metadata["author"],
+                "description": metadata["description"],
+            },
+
+            "grid_parameters": {
+                "row_counter": grid.row_counter,
+                "column_counter": grid.column_counter,
+                "max_row_quantity": grid.max_row_quantity,
+                "max_column_quantity": grid.max_column_quantity,
+                "size": grid.size,
+            },
+
+            "locations": {},
+            "buttons": {},
+            "connections": {},
+        }
+
+        i = 0
+        for item in grid.locations.values():
+            if type(item) == Location:
+                loc_dict = {
+                    "name": item.name,
+                    "description": item.description,
+                    "is_start": item.is_start,
+                    "is_end": item.is_end,
+
+                    "pos": item.pos,
+                    "location_id": item.location_id.int,
+                    "row": item.row,
+                    "column": item.column,
+                    "exits": {},
+                    "exit_descriptions": {
+                        "N": item.exit_descriptions["N"],
+                        "E": item.exit_descriptions["E"],
+                        "S": item.exit_descriptions["S"],
+                        "W": item.exit_descriptions["W"],
+                    }
+                }
+
+                for key, destination in item.exits.items():
+                    if destination is not None:
+                        loc_dict["exits"][key] = destination.location_id.int
+
+                dictionary["locations"][item.location_id.int] = loc_dict
+            else:
+                i += 1
+                button_dict = {
+                    "pos": item.pos,
+                    "row": item.row,
+                    "column": item.column,
+                }
+
+                dictionary["buttons"][i] = button_dict
+
+        for connection in grid.connections.values():
+            conn_dict = {
+                "direction": connection.direction,
+                "source": connection.source.location_id.int,
+                "destination": connection.destination.location_id.int,
+                "first_is_active": connection.ids.first.is_active,
+                "second_is_active": connection.ids.second.is_active,
+            }
+
+            dictionary["connections"][i] = conn_dict
+            i += 1
+
+        json_object = json.dumps(dictionary, indent=4)
+        json.dumps("")
+
+        with open(path, "w") as outfile:
+            outfile.write(json_object)
+
+    def load_project(self, path: str) -> dict:
+        file = open(path)
+        data = json.load(file)
+        file.close()
+        return data

@@ -2,14 +2,6 @@ import uuid
 from abc import ABC, abstractmethod
 from typing import Dict
 
-# Data to be written
-
-
-# Serializing json
-
-
-# from models.game_data import Exit, Location
-
 
 class IRuntime(ABC):
     """
@@ -18,10 +10,16 @@ class IRuntime(ABC):
     """
 
     @abstractmethod
-    def save_project(self, title: str, locations, start_location_id, path) -> None:
+    def export_game(self, title: str, locations, start_location_id, path) -> None:
         pass
 
+    @abstractmethod
+    def save_project(self, metadata: dict, grid, path: str) -> None:
+        pass
 
+    @abstractmethod
+    def load_project(self, path: str) -> dict:
+        pass
 
 
 

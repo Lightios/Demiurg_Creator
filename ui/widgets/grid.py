@@ -64,7 +64,7 @@ class Grid(RelativeLayout):
             line.points = (width, 0 - LOCATION_SIZE * 5, width, self.height)
 
     def add_location(self, button):
-        location = Location(button)
+        location = Location(button.row, button.column)
 
         # center location on the button - Kivy renders widgets starting from bottom left corner
         # we need to subtract half of the sizes to render it properly
@@ -212,6 +212,14 @@ class Grid(RelativeLayout):
 
         self.locations = {}
         self.connections = {}
+
+        # TODO: consider restarting position
+        # self.row_counter = {0: 1}
+        # self.column_counter = {0: 1}
+        # self.max_row_quantity: int = 7
+        # self.max_column_quantity: int = 4
+
+        self.size = self.parent.size
 
     def update_counters(self, row: int, column: int, added: bool):
         """

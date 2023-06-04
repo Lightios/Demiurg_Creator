@@ -13,7 +13,6 @@ class Connection(MDCard):
         self.source = source
         self.destination = destination
         self.direction = direction
-        self.is_active = False
 
         if direction == "right" or direction == "left":
             first = "right"

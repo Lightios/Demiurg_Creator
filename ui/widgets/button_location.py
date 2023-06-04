@@ -13,7 +13,3 @@ class ButtonLocation(MDIconButton):
 
         self.column: int = column
         self.row: int = row
-
-
-
-

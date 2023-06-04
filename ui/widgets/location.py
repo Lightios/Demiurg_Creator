@@ -37,10 +37,10 @@ class Location(MDCard):
     row: int
     column: int
 
-    def __init__(self, button, *args, **kwargs):
+    def __init__(self, row, column, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.column = button.column
-        self.row = button.row
+        self.column = column
+        self.row = row
         self.exits = {"N": None, "E": None, "S": None, "W": None}
         self.exit_descriptions = {"N": "", "E": "", "S": "", "W": ""}
         self.location_id = uuid4()
@@ -89,7 +89,9 @@ class Location(MDCard):
 
         self.dialog.dismiss()
         self.ids.label.text = self.name
+        self.set_background()
 
+    def set_background(self):
         if self.is_start and self.is_end:
             self.ids.background_image.source = Location.image_sources[0]
         elif self.is_start:
@@ -99,7 +101,7 @@ class Location(MDCard):
         else:
             self.ids.background_image.source = Location.image_sources[3]
 
-    def check_start(self):
+    def check_start(self) -> bool:
         # trying to mark as new start location
         if self.dialog.content_cls.ids.start.marked and not self.is_start:
             if self.parent.start_location is None:
@@ -118,3 +120,16 @@ class Location(MDCard):
 
         # didn't do anything
         return True
+
+    def update_parameters(self, parameters: dict) -> None:
+        self.name = parameters["name"]
+        self.description = parameters["description"]
+        self.is_start = parameters["is_start"]
+        self.is_end = parameters["is_end"]
+        self.pos = parameters["pos"]
+        self.exit_descriptions["N"] = parameters["exit_descriptions"]["N"]
+        self.exit_descriptions["E"] = parameters["exit_descriptions"]["E"]
+        self.exit_descriptions["S"] = parameters["exit_descriptions"]["S"]
+        self.exit_descriptions["W"] = parameters["exit_descriptions"]["W"]
+
+        self.set_background()

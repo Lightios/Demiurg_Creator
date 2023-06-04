@@ -29,18 +29,27 @@ Screen:
         on_press: app.root.ids.screen_manager.current = "creator"; app.root.ids.nav_drawer.set_state("close")
 
     NavigationButton:
-        text: "Import"
+        text: "Save project"
         pos_hint: {"x": 0.3, "center_y": 0.7}
-
-    NavigationButton:
-        text: "Export"
-        pos_hint: {"x": 0.3, "center_y": 0.6}
         on_press: app.save_project()
 
     NavigationButton:
-        text: "Delete all"
+        text: "Load project"
+        pos_hint: {"x": 0.3, "center_y": 0.6}
+        on_press: app.load_project()
+
+    NavigationButton:
+        text: "Export"
         pos_hint: {"x": 0.3, "center_y": 0.5}
+        on_press: app.export_game()
+
+    NavigationButton:
+        text: "Delete all"
+        pos_hint: {"x": 0.3, "center_y": 0.4}
         on_press: app.delete_all()
+
+
+
 
 
 <NavigationButton@MDCard>:
