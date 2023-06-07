@@ -1,4 +1,5 @@
 from kivy.clock import Clock
+from kivy.input.providers.mouse import MouseMotionEvent
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -37,6 +38,12 @@ class UI(MDApp):
 
     def test(self):
         self.root.ids.screen_manager.current = "creator"
+        grid = self.root.ids.creator_screen.ids.grid
+        button = grid.children[0]
+
+        touch = MouseMotionEvent(None, 123, button.pos)  # args are device, id, spos
+        touch.button = 'left'
+        button.dispatch('on_touch_down', touch)
 
     def save_project(self):
         metadata = {

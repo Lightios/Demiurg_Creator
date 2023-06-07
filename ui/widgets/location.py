@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.lang import Builder
 from kivy.metrics import dp
 from kivy.properties import StringProperty
@@ -68,6 +69,10 @@ class Location(MDCard):
                     ],
                 )
                 self.dialog.open()
+
+        elif touch.is_double_tap:
+            App.get_running_app().root.ids.creator_screen.show_interactions_content()
+
 
     def delete(self):
         self.parent.delete_location(self)

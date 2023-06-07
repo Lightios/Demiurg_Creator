@@ -1,0 +1,60 @@
+<InteractionsContent>:
+    spacing: dp(20)
+
+
+
+    MDCard:
+        size_hint: 1, None
+        height: dp(80)
+        md_bg_color: rgba("#92C5C9")
+
+        FloatLayout:
+            MDLabel:
+                id: name_label
+                text: "Location: "
+                pos_hint: {"x": 0.05, "center_y": 0.5}
+                font_size: dp(20)
+                font_name: "Source_code_pro_bold"
+
+            MDTextField:
+                id: name_field
+                text: ""
+                pos_hint: {"x": 0.17, "center_y": 0.5}
+                font_size: dp(20)
+                size_hint_x: 0.5
+                font_name: "Source_code_pro_bold"
+                text_color_normal: 1, 1, 1, 1
+
+
+    MDCard:
+        size_hint: 1, None
+        height: dp(180)
+        md_bg_color: rgba("#BC96E6")
+
+        FloatLayout:
+            MDTextField:
+                id: description_field
+                text: ""
+                pos_hint: {"x": 0.05, "center_y": 0.5}
+                font_size: dp(20)
+                size_hint: 0.9, 0.8
+                font_name: "Source_code_pro_bold"
+                text_color_normal: 1, 1, 1, 1
+                multiline: True
+
+    MDCard:
+        id: exits_card
+        size_hint: 1, None
+        height: dp(180)
+        md_bg_color: rgba("#AE759F")
+
+        FloatLayout:
+            MDLabel:
+                id: exits_label
+                text: "Location lorem ipsum dolor sit amet sit  amet"
+
+
+    MDCard:
+        size_hint: 1, None
+        height: dp(400)
+        md_bg_color: rgba("#404040")

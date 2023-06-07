@@ -72,20 +72,51 @@
         size_hint: 0.1, None
         height: root.height - top_app_bar.height
 
-#        MDIconButton:
-#            icon: "content-save"
-#            pos_hint: {"center_x": 0.5, "center_y": 0.2}
-#            font_size: dp(80)
-#            on_press: app.save_project(project_title_label, grid)
-#        Label:
-#            font_name: "Nunito"
-#            pos_hint: {"center_x": 0.5, "center_y": 0.14}
-#            text: "Save project"
-#            font_size: dp(20)
+
+        MDCard:
+            pos_hint: {"center_x": 0.5, "center_y": 0.8}
+            size_hint: 0.8, None
+            height: self.width
+            md_bg_color: rgba("#2D3444")
+
+            FloatLayout:
+                Button:
+                    background_color: 0, 0, 0, 0
+                    pos: self.parent.pos
+                    on_press: root.show_grid()
+                MDIcon:
+                    icon: "map-outline"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.7}
+                    font_size: dp(50)
+                Label:
+                    font_name: "Nunito"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.3}
+                    text: "Map"
+                    font_size: dp(20)
+
+        MDCard:
+            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            size_hint: 0.8, None
+            height: self.width
+            md_bg_color: rgba("#2D3444")
+
+            FloatLayout:
+                Button:
+                    background_color: 0, 0, 0, 0
+                    on_press: root.show_grid()
+                MDIcon:
+                    icon: "comment-question-outline"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.7}
+                    font_size: dp(50)
+                Label:
+                    font_name: "Nunito"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.3}
+                    text: "Interactions"
+                    font_size: dp(20)
 
 
     ScrollView:
-        id: scroll
+        id: scroll_grid
         pos_hint: {"x": 0.1, "y": 0}
         size_hint: 0.9, None
         height: root.height - top_app_bar.height
@@ -93,5 +124,18 @@
         Grid:
             id: grid
             size_hint: None, None
-            size: scroll.size
+            size: scroll_grid.size
+
+    ScrollView:
+        do_scroll_x: False
+        id: scroll_interactions
+        pos_hint: {"x": 10, "y": 0}
+        size_hint: 0.9, None
+        height: root.height - top_app_bar.height
+
+        InteractionsContent:
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: self.minimum_height
+
 
