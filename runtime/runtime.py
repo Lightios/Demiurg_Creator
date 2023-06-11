@@ -35,6 +35,9 @@ class Runtime(IRuntime):
                 "locations": {}
             }
 
+            "quests": {
+
+            }
         }
 
         for location in locations:
