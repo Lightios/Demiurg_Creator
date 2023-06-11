@@ -4,7 +4,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.image import Image
 from kivy.uix.gridlayout import GridLayout
 
-from ui.widgets.interactions_content import InteractionsContent
+from ui.widgets.quest_content import InteractionsContent
 from ui.assets_loader import prepare_assets
 
 KV = '''

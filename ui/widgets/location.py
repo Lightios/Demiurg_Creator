@@ -70,8 +70,8 @@ class Location(MDCard):
                 )
                 self.dialog.open()
 
-        elif touch.is_double_tap:
-            App.get_running_app().root.ids.creator_screen.show_interactions_content()
+        # elif touch.is_double_tap:
+        #     App.get_running_app().root.ids.creator_screen.show_interactions_content()
 
 
     def delete(self):

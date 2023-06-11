@@ -15,12 +15,8 @@
                 Rectangle:
                     pos: self.pos
                     size: self.size
-#            title: "Navigation Drawer"
             elevation: 10
             id: top_app_bar
-#            left_action_items: [['menu', lambda x: app.root.ids.nav_drawer.set_state("open")]]
-#            on_action_button: app.callback(self.icon)
-#            md_bg_color: rgba("#1E232E")  # ?
 
             RelativeLayout:
                 MDIconButton:
@@ -78,12 +74,9 @@
             size_hint: 0.8, None
             height: self.width
             md_bg_color: rgba("#2D3444")
+            on_press: root.show_grid()
 
             FloatLayout:
-                Button:
-                    background_color: 0, 0, 0, 0
-                    pos: self.parent.pos
-                    on_press: root.show_grid()
                 MDIcon:
                     icon: "map-outline"
                     pos_hint: {"center_x": 0.5, "center_y": 0.7}
@@ -99,6 +92,7 @@
             size_hint: 0.8, None
             height: self.width
             md_bg_color: rgba("#2D3444")
+            on_press: root.open_quest_dialog()
 
             FloatLayout:
                 Button:
@@ -111,7 +105,7 @@
                 Label:
                     font_name: "Nunito"
                     pos_hint: {"center_x": 0.5, "center_y": 0.3}
-                    text: "Interactions"
+                    text: "Quests"
                     font_size: dp(20)
 
 
@@ -128,14 +122,21 @@
 
     ScrollView:
         do_scroll_x: False
-        id: scroll_interactions
+        id: scroll_quests
         pos_hint: {"x": 10, "y": 0}
         size_hint: 0.9, None
         height: root.height - top_app_bar.height
 
-        InteractionsContent:
+        QuestContent:
+            id: quest_content
             pos_hint: {"center_x": 0.5}
             size_hint: 0.8, None
             height: self.minimum_height
 
 
+<ItemConfirm>:
+    on_release: root.set_icon(check)
+
+    CheckboxLeftWidget:
+        id: check
+        group: "check"
