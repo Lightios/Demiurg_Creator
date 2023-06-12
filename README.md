@@ -1,4 +1,4 @@
-# Project Demiurg
+# Demiurg Creator
 
 Project Demiurg is an interactive game creation platform that allows users to design and play their own text-based adventure games. With Demiurg, you can unleash your creativity and build captivating game worlds filled with quests, dialogues, and immersive environments.
 
