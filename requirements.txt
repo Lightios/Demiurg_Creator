@@ -1,0 +1,4 @@
+Kivy>=2.2.0
+KivyMD>=1.1.1
+Plyer>=2.1.0
+Pyobjus>=1.2.2
