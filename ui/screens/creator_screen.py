@@ -28,8 +28,10 @@ class CreatorScreen(MDScreen):
         self.selected_item = None
 
     def show_grid(self):
-        self.ids.scroll_grid.pos_hint = {"x": 0.1, "y": 0}
-        self.ids.scroll_interactions.pos_hint = {"x": -10, "y": -10}
+        if self.ids.quest_content.save_quest():  # if could save
+            self.ids.scroll_grid.pos_hint = {"x": 0.1, "y": 0}
+            self.ids.scroll_quests.pos_hint = {"x": -10, "y": -10}
+
 
     def open_quest_dialog(self):
         items = [ItemConfirm(self, text="Create a new quest")]
@@ -64,7 +66,7 @@ class CreatorScreen(MDScreen):
 
         if self.selected_item.quest is None:
             quest = Quest()
-            self.quests[quest.id.int] = quest
+            self.quests[quest.id] = quest
         else:
             quest = self.selected_item.quest
 

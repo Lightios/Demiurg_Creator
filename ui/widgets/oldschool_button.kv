@@ -1,10 +1,12 @@
 <OldschoolButton>:
     size_hint: None, None
-    md_bg_color: 0, 0, 0, 0
     size: image.texture_size
+    md_bg_color: 0, 0, 0, 0 
 
-    RelativeLayout:
+    FloatLayout:
         Image:
             source: root.source
             id: image
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            size_hint_y: None
+            height: dp(70)

@@ -36,14 +36,14 @@ class UI(MDApp):
         prepare_assets()
         # Clock.schedule_once(lambda x: self.test())
 
-    # def test(self):
-    #     self.root.ids.screen_manager.current = "creator"
-    #     grid = self.root.ids.creator_screen.ids.grid
-    #     button = grid.children[0]
-    #
-    #     touch = MouseMotionEvent(None, 123, button.pos)  # args are device, id, spos
-    #     touch.button = 'left'
-    #     button.dispatch('on_touch_down', touch)
+    def test(self):
+        self.root.ids.screen_manager.current = "creator"
+        grid = self.root.ids.creator_screen.ids.grid
+        button = grid.children[0]
+
+        touch = MouseMotionEvent(None, 123, button.pos)  # args are device, id, spos
+        touch.button = 'left'
+        button.dispatch('on_touch_down', touch)
 
     def save_project(self):
         metadata = {

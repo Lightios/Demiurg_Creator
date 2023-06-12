@@ -33,7 +33,7 @@ class Runtime(IRuntime):
             "map": {
                 "start_location_id": start_location_id,
                 "locations": {}
-            }
+            },
 
             "quests": {
 

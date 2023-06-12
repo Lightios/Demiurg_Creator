@@ -4,7 +4,7 @@
     MDCard:
         size_hint: 1, None
         height: dp(80)
-        md_bg_color: rgba("#92C5C9")
+        md_bg_color: rgba("#9747FF")
 
         FloatLayout:
             MDLabel:
@@ -17,7 +17,7 @@
             MDTextField:
                 id: name_field
                 text: ""
-                pos_hint: {"x": 0.17, "center_y": 0.5}
+                pos_hint: {"x": 0.1, "center_y": 0.5}
                 font_size: dp(20)
                 size_hint_x: 0.5
                 font_name: "Source_code_pro_bold"
@@ -47,20 +47,20 @@
         md_bg_color: rgba("#AE759F")
 
         FloatLayout:
+            MDLabel:
+                pos_hint: {'x': .2, 'center_y': .5}
+                text: 'Starting stage id: '
+
             MDDropDownItem:
                 id: starting_stage
-                pos_hint: {'center_x': .5, 'center_y': .5}
-                text: 'Item 0'
+                pos_hint: {'x': .3, 'center_y': .5}
+                text: 'None'
                 on_release: root.menu.open()
 
 
-    MDCard:
-        size_hint: 1, None
-        height: dp(400)
-        md_bg_color: rgba("#404040")
+    OldschoolButton:
+        id: add_new_stage_button
+        name: "stage"
+        on_press: root.add_new_stage()
 
-        FloatLayout:
-            OldschoolButton:
-                name: "option"
-                on_press: root.add_new_stage()
 
