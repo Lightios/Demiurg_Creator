@@ -4,7 +4,8 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.image import Image
 from kivy.uix.gridlayout import GridLayout
 
-from ui.widgets.quest_content import InteractionsContent
+from ui.widgets.quest_content import QuestContent
+from ui.dataclasses.quest import Quest
 from ui.assets_loader import prepare_assets
 
 KV = '''
@@ -15,7 +16,8 @@ Screen:
         pos_hint: {"x": 0.2, "y": 0}
         size_hint: 0.9, 1
 
-        InteractionsContent:
+        QuestContent:
+            id: quest_content
             pos_hint: {"center_x": 0.5}
             size_hint: 0.8, None
             height: self.minimum_height
@@ -31,6 +33,10 @@ class ScrollableImageApp(MDApp):
 
         prepare_assets()
         return Builder.load_string(KV)
+
+    def on_start(self):
+        quest = Quest()
+        self.root.ids.quest_content.set_quest(quest)
 
 
 ScrollableImageApp().run()

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, List
 import json
 
 from runtime.i_runtime import IRuntime
@@ -22,7 +22,13 @@ class Runtime(IRuntime):
         self.ui = UI(self)
         self.ui.run()
 
-    def export_game(self, title: str, locations: Dict, start_location_id: str, path: str):
+    def export_game(self,
+                    title: str,
+                    locations: Dict,
+                    start_location_id: str,
+                    path: str,
+                    quests: Dict[int, 'Quest'],
+                    ):
         dictionary = {
             "metadata": {
                 "title": title,
@@ -63,14 +69,37 @@ class Runtime(IRuntime):
 
             dictionary["map"]["locations"][location.location_id.int] = loc_dict
 
+        for quest_id, quest in quests.items():
+            quest_dict = {
+                "name": quest.name,
+                "description": quest.description,
+                "start_stage_id": quest.starting_stage,
+                "stages": {}
+            }
+
+            for stage_id, stage in quest.stages.items():
+                quest_dict["stages"][stage_id] = {
+                    "location_id": stage["location"].location_id.int,
+                    "text": stage["text"],
+                    "options": {}
+                }
+
+                for option_id, option in stage["options"].items():
+                    quest_dict["stages"][stage_id]["options"][option_id] = {
+                        "text": option["text"],
+                        "next_stage_id": option["next_stage_id"],
+                        "response_message": option["response_message"],
+                    }
+
+            dictionary["quests"][quest_id] = quest_dict
+
         json_object = json.dumps(dictionary, indent=4)
         json.dumps("")
 
-        # Writing to sample.json
         with open(path, "w") as outfile:
             outfile.write(json_object)
 
-    def save_project(self, metadata: dict, grid, path: str):
+    def save_project(self, metadata: dict, grid, path: str, quests: dict):
         dictionary = {
             "metadata": {
                 "title": metadata["title"],
@@ -89,6 +118,7 @@ class Runtime(IRuntime):
             "locations": {},
             "buttons": {},
             "connections": {},
+            "quests": {},
         }
 
         i = 0
@@ -139,6 +169,30 @@ class Runtime(IRuntime):
 
             dictionary["connections"][i] = conn_dict
             i += 1
+
+        for quest_id, quest in quests.items():
+            quest_dict = {
+                "name": quest.name,
+                "description": quest.description,
+                "start_stage_id": quest.starting_stage,
+                "stages": {}
+            }
+
+            for stage_id, stage in quest.stages.items():
+                quest_dict["stages"][stage_id] = {
+                    "location_id": stage["location"].location_id.int,
+                    "text": stage["text"],
+                    "options": {}
+                }
+
+                for option_id, option in stage["options"].items():
+                    quest_dict["stages"][stage_id]["options"][option_id] = {
+                        "text": option["text"],
+                        "next_stage_id": option["next_stage_id"],
+                        "response_message": option["response_message"],
+                    }
+
+            dictionary["quests"][quest_id] = quest_dict
 
         json_object = json.dumps(dictionary, indent=4)
         json.dumps("")

@@ -32,7 +32,6 @@ class CreatorScreen(MDScreen):
             self.ids.scroll_grid.pos_hint = {"x": 0.1, "y": 0}
             self.ids.scroll_quests.pos_hint = {"x": -10, "y": -10}
 
-
     def open_quest_dialog(self):
         items = [ItemConfirm(self, text="Create a new quest")]
 
@@ -75,6 +74,12 @@ class CreatorScreen(MDScreen):
 
         self.ids.scroll_grid.pos_hint = {"x": -10, "y": -10}
         self.ids.scroll_quests.pos_hint = {"x": 0.2, "y": -0.02}
+        self.selected_item = None
+
+    def delete_all(self):
+        del self.quests
+        self.quests = dict()
+        self.selected_item = None
 
 
 class ItemConfirm(OneLineAvatarIconListItem):

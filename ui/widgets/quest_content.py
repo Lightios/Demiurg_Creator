@@ -51,7 +51,7 @@ class QuestContent(StackLayout):
     def _update_fields(self):
         self.ids.name_field.text = self.current_quest.name
         self.ids.description_field.text = self.current_quest.description
-        self.ids.starting_stage.item = f"{self.current_quest.starting_stage}"
+        self.ids.starting_stage.set_item(f"{self.current_quest.starting_stage}")
 
     def _recreate_stages(self):
         for stage in self.stages.values():
@@ -71,7 +71,8 @@ class QuestContent(StackLayout):
         button = self.ids.add_new_stage_button
 
         if stage_id is None:
-            # we are creating new stage using a button, otherwise it's loaded from already existing stage
+            # if stage_id is None, we are creating new stage using a button
+            # otherwise it's loaded from already existing stage
             stage_id = self.current_quest.generate_id_for_stage()
             self.current_quest.add_new_stage(stage_id)
             self._recreate_menu()
@@ -80,6 +81,7 @@ class QuestContent(StackLayout):
         self.stages[stage_id] = stage
         self.add_widget(stage)
 
+        # make the button be at bottom of this layout
         self.remove_widget(button)
         self.add_widget(button)
 
@@ -97,14 +99,14 @@ class QuestContent(StackLayout):
                     toast("Stage not set")
                     return False
 
-        self.current_quest.name = self.ids.text_field.text
+        self.current_quest.name = self.ids.name_field.text
         self.current_quest.description = self.ids.description_field.text
         self.current_quest.starting_stage = self.ids.starting_stage.current_item
 
         for stage_id, stage in self.stages.items():
             temp_dict = {
-                "location_id": stage.location.location_id,
-                "text": stage.text,
+                "location": stage.location,
+                "text": stage.ids.text_field.text,
                 "options": {}
             }
 
