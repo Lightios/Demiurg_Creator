@@ -10,11 +10,11 @@ class IRuntime(ABC):
     """
 
     @abstractmethod
-    def export_game(self, title: str, locations, start_location_id, path) -> None:
+    def export_game(self, title: str, locations, start_location_id, path, quests) -> None:
         pass
 
     @abstractmethod
-    def save_project(self, metadata: dict, grid, path: str) -> None:
+    def save_project(self, metadata: dict, grid, path: str, quests) -> None:
         pass
 
     @abstractmethod

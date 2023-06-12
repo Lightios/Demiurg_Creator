@@ -1,4 +1,5 @@
 from kivy.clock import Clock
+from kivy.input.providers.mouse import MouseMotionEvent
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -9,6 +10,7 @@ from plyer import filechooser
 from kivymd.toast import toast
 import gc
 
+from ui.dataclasses.quest import Quest
 from ui.screens.menu_screen import MenuScreen
 from ui.screens.creator_screen import CreatorScreen
 from ui.assets_loader import prepare_assets
@@ -33,10 +35,16 @@ class UI(MDApp):
         self.theme_cls.theme_style = "Dark"
 
         prepare_assets()
-        Clock.schedule_once(lambda x: self.test())
+        # Clock.schedule_once(lambda x: self.test())
 
     def test(self):
         self.root.ids.screen_manager.current = "creator"
+        grid = self.root.ids.creator_screen.ids.grid
+        button = grid.children[0]
+
+        touch = MouseMotionEvent(None, 123, button.pos)  # args are device, id, spos
+        touch.button = 'left'
+        button.dispatch('on_touch_down', touch)
 
     def save_project(self):
         metadata = {
@@ -46,16 +54,20 @@ class UI(MDApp):
         }
 
         grid = self.root.ids.creator_screen.ids.grid
+        quests = self.root.ids.creator_screen.quests
         path = filechooser.save_file(title="Select save location", filters=[(".json", "*.json")])
 
         if path:
             path = path[0] if path[0].endswith(".json") else path[
                                                                  0] + ".json"  # filechooser returns a list, so we take [0]
-            self.runtime.save_project(metadata, grid, path)
+            self.runtime.save_project(metadata, grid, path, quests)
 
     def load_project(self):
+        creator_screen = self.root.ids.creator_screen
         grid = self.root.ids.creator_screen.ids.grid
+
         grid.delete_all()
+        creator_screen.delete_all()
 
         path = filechooser.open_file(title="Select project to load", filters=[(".json", "*.json")])
         data = self.runtime.load_project(path[0])
@@ -76,12 +88,6 @@ class UI(MDApp):
             grid.add_widget(location)
             grid.locations[(location.row, location.column)] = location
             location_ids[parameters_location["location_id"]] = location
-
-        # for parameters_location in data["locations"].values():
-        #     location = location_ids[parameters_location["location_id"]]
-        #
-        #     for key, destination in parameters_location["exits"].items():
-        #         location[key] = location_ids[destination]
 
         for parameters_button in data["buttons"].values():
             button = ButtonLocation(
@@ -112,9 +118,25 @@ class UI(MDApp):
             grid.connections[((source.row, source.column), (destination.row, destination.column))] = connection
             grid.add_widget(connection)
 
+        for quest_id, parameters_quest in data["quests"].items():
+            quest = Quest()
+            quest.name = parameters_quest["name"]
+            quest.description = parameters_quest["description"]
+            quest.starting_stage = parameters_quest["start_stage_id"]
+
+            for stage_id, stage_parameters in parameters_quest["stages"].items():
+                quest.stages[stage_id] = {
+                    "text": stage_parameters["text"],
+                    "options": stage_parameters["options"],
+                    "location": location_ids[stage_parameters["location_id"]]
+                }
+
+            creator_screen.quests[quest_id] = quest
+
     def export_game(self):
         project_title_label = self.root.ids.creator_screen.ids.project_title_label
         grid = self.root.ids.creator_screen.ids.grid
+        quests = self.root.ids.creator_screen.quests
 
         locations = []
         for location in grid.locations.values():
@@ -130,7 +152,7 @@ class UI(MDApp):
         if path:
             path = path[0] if path[0].endswith(".json") else path[0] + ".json"  # filechooser returns a list, so we take [0]
             self.runtime.export_game(project_title_label.text, locations,
-                                     str(grid.start_location.location_id.int), path)
+                                     str(grid.start_location.location_id.int), path, quests)
 
     def delete_all(self):
         grid = self.root.ids.creator_screen.ids.grid
