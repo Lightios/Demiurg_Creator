@@ -38,5 +38,8 @@ class ScrollableImageApp(MDApp):
         quest = Quest()
         self.root.ids.quest_content.set_quest(quest)
 
+    def debug(self):
+        print(1)
+
 
 ScrollableImageApp().run()
