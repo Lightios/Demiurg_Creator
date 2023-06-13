@@ -26,7 +26,7 @@ Screen:
     NavigationButton:
         text: "New project"
         pos_hint: {"x": 0.3, "center_y": 0.8}
-        on_press: app.root.ids.screen_manager.current = "creator"; app.root.ids.nav_drawer.set_state("close")
+        on_press: app.create_new_project() # app.root.ids.screen_manager.current = "creator"; app.root.ids.nav_drawer.set_state("close")
 
     NavigationButton:
         text: "Save project"

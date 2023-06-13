@@ -1,3 +1,6 @@
+import json
+import os
+
 from kivy.clock import Clock
 from kivy.input.providers.mouse import MouseMotionEvent
 from kivy.properties import StringProperty
@@ -64,15 +67,36 @@ class UI(MDApp):
                                                                  0] + ".json"  # filechooser returns a list, so we take [0]
             self.runtime.save_project(metadata, grid, path, quests)
 
-    def load_project(self):
+    def load_project(self, project: str | None = None):
         creator_screen = self.root.ids.creator_screen
         grid = self.root.ids.creator_screen.ids.grid
 
         grid.delete_all()
         creator_screen.delete_all()
 
-        path = filechooser.open_file(title="Select project to load", filters=[(".json", "*.json")])
+        dirname = os.path.dirname(__file__)
+        demiurg_folder = os.path.dirname(dirname)
+        projects_folder = os.path.join(demiurg_folder, "projects")
+
+        if project is None:
+            path = filechooser.open_file(title="Select project to load", filters=[(".json", "*.json")])
+        else:
+            project_folder = os.path.join(projects_folder, project)
+            path = [os.path.join(project_folder, "data.json")]
         data = self.runtime.load_project(path[0])
+
+        if project is None:
+            title = data["metadata"]["title"]
+            new_project_folder = os.path.join(projects_folder, title)
+            try:
+                os.mkdir(new_project_folder)
+                json_object = json.dumps(data, indent=4)
+                json.dumps("")
+
+                with open(os.path.join(new_project_folder, "data.json"), "w") as outfile:
+                    outfile.write(json_object)
+            except FileExistsError:
+                toast(f"Project {title} already exists")
 
         creator_screen.ids.project_name.text = data["metadata"]["title"]
         creator_screen.ids.project_author.text = data["metadata"]["author"]
@@ -139,6 +163,8 @@ class UI(MDApp):
 
             creator_screen.quests[quest_id] = quest
 
+        self.root.ids.screen_manager.current = "creator"
+
     def export_game(self):
         grid = self.root.ids.creator_screen.ids.grid
         quests = self.root.ids.creator_screen.quests
@@ -169,6 +195,16 @@ class UI(MDApp):
     def delete_all(self):
         grid = self.root.ids.creator_screen.ids.grid
         grid.delete_all()
+
+    def create_new_project(self):
+        creator_screen = self.root.ids.creator_screen
+        self.root.ids.screen_manager.remove_widget(creator_screen)
+
+        creator_screen = CreatorScreen(name="creator")
+        self.root.ids.screen_manager.add_widget(creator_screen)
+        self.root.ids["creator_screen"] = creator_screen
+
+        self.root.ids.screen_manager.current = "creator"
 
 
 class NavigationButton(MDCard):

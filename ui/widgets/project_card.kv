@@ -1,17 +1,12 @@
 <ProjectCard>:
-#    canvas.before:
-#        Color:
-#            rgba: 0, 1, 0, 1
-#        Rectangle:
-#            pos: self.pos
-#            size: self.size
-
-    size_hint: 0.4, 0.15
+    size_hint: 1, None
+    height: dp(100)
     md_bg_color: 1, 1, 1, 0.05
+    on_press: app.load_project(root.project_title)
 
     RelativeLayout:
         MDLabel:
-            text: "Project Title"
+            text: root.project_title
             pos_hint: {"x": 0.28, "center_y": 0.75}
             font_name: "Nunito_bold"
             font_size: dp(20)

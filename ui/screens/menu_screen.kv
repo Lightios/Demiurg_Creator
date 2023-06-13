@@ -17,11 +17,7 @@
                 Rectangle:
                     pos: self.pos
                     size: self.size
-#            title: "Navigation Drawer"
             elevation: 10
-#            left_action_items: [['menu', lambda x: app.root.ids.nav_drawer.set_state("open")]]
-#            on_action_button: app.callback(self.icon)
-#            md_bg_color: rgba("#1E232E")  # ?
 
             RelativeLayout:
                 MDIconButton:
@@ -39,11 +35,13 @@
 
         Widget:  # needed for top bar to stay at the top
 
-    ProjectCard:
-        pos_hint: {"center_x": 0.5, "center_y": 0.65}
+    ScrollView:
+        pos_hint: {"center_x": 0.5, "top": 0.85}
+        size_hint: 0.4, 0.6
 
-    ProjectCard:
-        pos_hint: {"center_x": 0.5, "center_y": 0.45}
-
-    ProjectCard:
-        pos_hint: {"center_x": 0.5, "center_y": 0.25}
+        StackLayout:
+            spacing: dp(20)
+            size_hint_y: None
+            height: self.minimum_height
+            id: stack
+            padding: (5, 50, 0, 0)
