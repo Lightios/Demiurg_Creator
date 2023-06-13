@@ -17,12 +17,13 @@ Builder.load_file('ui/widgets/quest_content.kv')
 
 
 class QuestContent(StackLayout):
-    current_quest: Quest
+    current_quest: Quest | None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.stages = dict()
         self.starting_stage = None
+        self.current_quest = None
 
     def set_quest(self, quest: Quest):
         self.current_quest = quest
@@ -89,6 +90,9 @@ class QuestContent(StackLayout):
         """
         Tries to save current quest, if fails, returns False
         """
+        if self.current_quest is None:
+            return False
+
         for stage in self.stages.values():
             if stage.location is None:
                 toast("Location not set")

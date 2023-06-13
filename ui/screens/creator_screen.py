@@ -26,11 +26,23 @@ class CreatorScreen(MDScreen):
         self.quests = {}
         self.dialog = None
         self.selected_item = None
+        self.current_content = "grid"
+
+    def update_name(self, textfield):
+        self.ids.project_title_label.text = textfield.text
+
+    def show_project(self):
+        self.ids.project_content.pos_hint = {"x": 0.15, "y": 0.2}
+        self.ids.scroll_grid.pos_hint = {"x": -10, "y": -10}
+        self.ids.scroll_quests.pos_hint = {"x": -10, "y": -10}
+        self.current_content = "project"
 
     def show_grid(self):
-        if self.ids.quest_content.save_quest():  # if could save
+        if self.current_content != "quest" or self.ids.quest_content.save_quest():  # if could save
+            self.ids.project_content.pos_hint = {"x": -10, "y": -10}
             self.ids.scroll_grid.pos_hint = {"x": 0.1, "y": 0}
             self.ids.scroll_quests.pos_hint = {"x": -10, "y": -10}
+            self.current_content = "grid"
 
     def open_quest_dialog(self):
         items = [ItemConfirm(self, text="Create a new quest")]
@@ -72,8 +84,10 @@ class CreatorScreen(MDScreen):
         self.ids.quest_content.set_quest(quest)
         self.dialog.dismiss()
 
+        self.ids.project_content.pos_hint = {"x": -10, "y": -10}
         self.ids.scroll_grid.pos_hint = {"x": -10, "y": -10}
         self.ids.scroll_quests.pos_hint = {"x": 0.2, "y": -0.02}
+        self.current_content = "quest"
         self.selected_item = None
 
     def delete_all(self):

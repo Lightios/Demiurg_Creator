@@ -47,10 +47,12 @@ class UI(MDApp):
         button.dispatch('on_touch_down', touch)
 
     def save_project(self):
+        creator_screen = self.root.ids.creator_screen
+
         metadata = {
-            "title": "a",
-            "author": "b",
-            "description": "c"
+            "title": creator_screen.ids.project_name.text,
+            "author": creator_screen.ids.project_author.text,
+            "description": creator_screen.ids.project_description.text
         }
 
         grid = self.root.ids.creator_screen.ids.grid
@@ -71,6 +73,10 @@ class UI(MDApp):
 
         path = filechooser.open_file(title="Select project to load", filters=[(".json", "*.json")])
         data = self.runtime.load_project(path[0])
+
+        creator_screen.ids.project_name.text = data["metadata"]["title"]
+        creator_screen.ids.project_author.text = data["metadata"]["author"]
+        creator_screen.ids.project_description.text = data["metadata"]["description"]
 
         grid.row_counter = data["grid_parameters"]["row_counter"]
         grid.column_counter = data["grid_parameters"]["column_counter"]
@@ -134,9 +140,15 @@ class UI(MDApp):
             creator_screen.quests[quest_id] = quest
 
     def export_game(self):
-        project_title_label = self.root.ids.creator_screen.ids.project_title_label
         grid = self.root.ids.creator_screen.ids.grid
         quests = self.root.ids.creator_screen.quests
+        creator_screen = self.root.ids.creator_screen
+
+        metadata = {
+            "title": creator_screen.ids.project_name.text,
+            "author": creator_screen.ids.project_author.text,
+            "description": creator_screen.ids.project_description.text
+        }
 
         locations = []
         for location in grid.locations.values():
@@ -151,7 +163,7 @@ class UI(MDApp):
 
         if path:
             path = path[0] if path[0].endswith(".json") else path[0] + ".json"  # filechooser returns a list, so we take [0]
-            self.runtime.export_game(project_title_label.text, locations,
+            self.runtime.export_game(metadata, locations,
                                      str(grid.start_location.location_id.int), path, quests)
 
     def delete_all(self):

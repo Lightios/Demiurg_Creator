@@ -46,6 +46,12 @@ class QuestStage(MDCard):
 
         self.height += option.height + self.ids.stack.spacing[1]  # offset
 
+    def remove_option(self, option):
+        self.ids.stack.remove_widget(option)
+        self.height -= option.height + self.ids.stack.spacing[1]
+
+        del self.options[option.option_id]
+
     def _recreate_menu(self):
         grid = App.get_running_app().root.ids.creator_screen.ids.grid
         locations = []
@@ -112,3 +118,6 @@ class StageOption(MDCard):
     def set_item(self, stage_id):
         self.ids.stage_select.set_item(f"{stage_id}")
         self.menu.dismiss()
+
+    def remove_option(self):
+        self.stage.remove_option(self)

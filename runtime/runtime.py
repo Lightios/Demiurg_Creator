@@ -23,18 +23,14 @@ class Runtime(IRuntime):
         self.ui.run()
 
     def export_game(self,
-                    title: str,
+                    metadata: dict,
                     locations: Dict,
                     start_location_id: str,
                     path: str,
                     quests: Dict[int, 'Quest'],
                     ):
         dictionary = {
-            "metadata": {
-                "title": title,
-                "author": "Eldorado Games",
-                "description": "Very short game about a very brave Roomba."
-            },
+            "metadata": metadata,
 
             "map": {
                 "start_location_id": start_location_id,

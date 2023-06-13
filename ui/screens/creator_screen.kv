@@ -40,14 +40,7 @@
                     font_size: dp(20)
                     on_press: app.root.ids.screen_manager.current = "menu"
 
-                MDTextButton:
-                    text: "File"
-                    pos_hint: {"center_x": .2, "center_y": 1}
-                    font_name: "Nunito"
-                    text_color: 1, 1, 1, 1
-                    font_size: dp(20)
-
-                MDTextField:
+                MDLabel:
                     pos_hint: {"center_x": .5, "center_y": 1}
                     text: "Project title"
                     font_size: dp(30)
@@ -74,6 +67,24 @@
             size_hint: 0.8, None
             height: self.width
             md_bg_color: rgba("#2D3444")
+            on_press: root.show_project()
+
+            FloatLayout:
+                MDIcon:
+                    icon: "gamepad-circle"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.7}
+                    font_size: dp(50)
+                Label:
+                    font_name: "Nunito"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.3}
+                    text: "Project"
+                    font_size: dp(20)
+
+        MDCard:
+            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            size_hint: 0.8, None
+            height: self.width
+            md_bg_color: rgba("#2D3444")
             on_press: root.show_grid()
 
             FloatLayout:
@@ -88,16 +99,13 @@
                     font_size: dp(20)
 
         MDCard:
-            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            pos_hint: {"center_x": 0.5, "center_y": 0.4}
             size_hint: 0.8, None
             height: self.width
             md_bg_color: rgba("#2D3444")
             on_press: root.open_quest_dialog()
 
             FloatLayout:
-                Button:
-                    background_color: 0, 0, 0, 0
-                    on_press: root.show_grid()
                 MDIcon:
                     icon: "comment-question-outline"
                     pos_hint: {"center_x": 0.5, "center_y": 0.7}
@@ -108,6 +116,57 @@
                     text: "Quests"
                     font_size: dp(20)
 
+    BoxLayout:
+        id: project_content
+        pos_hint: {"x": 10, "y": 0}
+        size_hint: 0.9, None
+        height: root.height - top_app_bar.height
+        orientation: "vertical"
+        spacing: 20
+
+        MDCard:
+            size_hint: 0.9, None
+            height: dp(90)
+            md_bg_color: rgba("#9747FF")
+            FloatLayout:
+                MDTextField:
+                    id: project_name
+                    pos_hint: {"x": 0.05, "center_y": 0.5}
+                    size_hint_x: 0.9
+                    mode: "rectangle"
+                    hint_text: "Name"
+                    max_height: dp(80)
+                    write_tab: False
+                    on_text: root.update_name(self)
+
+        MDCard:
+            size_hint: 0.9, None
+            height: dp(90)
+            md_bg_color: rgba("#9747FF")
+            FloatLayout:
+                MDTextField:
+                    id: project_author
+                    pos_hint: {"x": 0.05, "center_y": 0.5}
+                    size_hint_x: 0.9
+                    mode: "rectangle"
+                    hint_text: "Author"
+                    max_height: dp(80)
+                    write_tab: False
+
+        MDCard:
+            size_hint: 0.9, None
+            height: dp(210)
+            md_bg_color: rgba("#9747FF")
+            FloatLayout:
+                MDTextField:
+                    id: project_description
+                    pos_hint: {"x": 0.05, "center_y": 0.5}
+                    size_hint_x: 0.9
+                    mode: "rectangle"
+                    hint_text: "Description"
+                    multiline: True
+                    max_height: dp(200)
+                    write_tab: False
 
     ScrollView:
         id: scroll_grid
