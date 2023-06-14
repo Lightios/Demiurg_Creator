@@ -131,4 +131,5 @@ class QuestContent(StackLayout):
             self.current_quest.stages[stage_id] = temp_dict
 
         App.get_running_app().root.ids.creator_screen.save_quest(self.current_quest)
+        toast("Quest saved")
         return True
