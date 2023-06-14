@@ -23,6 +23,7 @@
                 size_hint_x: 0.5
                 font_name: "Source_code_pro_bold"
                 text_color_normal: 1, 1, 1, 1
+                write_tab: False
 
 
     MDCard:
@@ -40,6 +41,7 @@
                 font_name: "Source_code_pro_bold"
                 text_color_normal: 1, 1, 1, 1
                 multiline: True
+                write_tab: False
 
     MDCard:
         id: starting_stage_card
@@ -67,3 +69,7 @@
         on_press: root.add_new_stage()
 
 
+    OldschoolButton:
+        id: save_button
+        name: "save"
+        on_press: root.save_quest()

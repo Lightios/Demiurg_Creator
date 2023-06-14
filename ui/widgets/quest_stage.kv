@@ -89,7 +89,7 @@
             pos_hint: {"center_y": 0.49}
             x: stage_label.x + 200
             text: 'Select stage'
-            on_release: root.menu.open()
+            on_release: root.recreate_menu(); root.menu.open()
             font_size: dp(20)
             font_name: "Source_code_pro_bold"
 

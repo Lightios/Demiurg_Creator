@@ -38,11 +38,11 @@ class CreatorScreen(MDScreen):
         self.current_content = "project"
 
     def show_grid(self):
-        if self.current_content != "quest" or self.ids.quest_content.save_quest():  # if could save
-            self.ids.project_content.pos_hint = {"x": -10, "y": -10}
-            self.ids.scroll_grid.pos_hint = {"x": 0.1, "y": 0}
-            self.ids.scroll_quests.pos_hint = {"x": -10, "y": -10}
-            self.current_content = "grid"
+        # if self.current_content != "quest" or self.ids.quest_content.save_quest():  # if could save
+        self.ids.project_content.pos_hint = {"x": -10, "y": -10}
+        self.ids.scroll_grid.pos_hint = {"x": 0.1, "y": 0}
+        self.ids.scroll_quests.pos_hint = {"x": -10, "y": -10}
+        self.current_content = "grid"
 
     def open_quest_dialog(self):
         items = [ItemConfirm(self, text="Create a new quest")]
@@ -76,12 +76,11 @@ class CreatorScreen(MDScreen):
             return
 
         if self.selected_item.quest is None:
-            quest = Quest()
-            self.quests[quest.id] = quest
+            quest_copy = Quest()
         else:
-            quest = self.selected_item.quest
+            quest_copy = Quest(self.selected_item.quest)
 
-        self.ids.quest_content.set_quest(quest)
+        self.ids.quest_content.set_quest(quest_copy)
         self.dialog.dismiss()
 
         self.ids.project_content.pos_hint = {"x": -10, "y": -10}
@@ -94,6 +93,9 @@ class CreatorScreen(MDScreen):
         del self.quests
         self.quests = dict()
         self.selected_item = None
+
+    def save_quest(self, quest):
+        self.quests[quest.id] = quest
 
 
 class ItemConfirm(OneLineAvatarIconListItem):

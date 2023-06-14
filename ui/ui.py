@@ -33,7 +33,8 @@ class UI(MDApp):
         self.runtime = runtime
 
     def build(self):
-        self.theme_cls.primary_palette = "BlueGray"
+        self.theme_cls.primary_palette = "Purple"
+        self.theme_cls.primary_hue = "50"
         self.theme_cls.accent_palette = "Red"
         self.theme_cls.theme_style = "Dark"
 
@@ -60,19 +61,29 @@ class UI(MDApp):
 
         grid = self.root.ids.creator_screen.ids.grid
         quests = self.root.ids.creator_screen.quests
-        path = filechooser.save_file(title="Select save location", filters=[(".json", "*.json")])
+        # path = filechooser.save_file(title="Select save location", filters=[(".json", "*.json")])
 
-        if path:
-            path = path[0] if path[0].endswith(".json") else path[
-                                                                 0] + ".json"  # filechooser returns a list, so we take [0]
-            self.runtime.save_project(metadata, grid, path, quests)
+        dirname = os.path.dirname(__file__)
+        demiurg_folder = os.path.dirname(dirname)
+        projects_folder = os.path.join(demiurg_folder, "projects")
+        new_project_folder = os.path.join(projects_folder, metadata["title"])
+        toast_message = ""
+
+        try:
+            os.mkdir(new_project_folder)
+        except FileExistsError:
+            if metadata["title"] == "":
+                toast("Project title cannot be empty")
+                return
+            else:
+                toast_message += "Overwriting project. "
+
+        path = os.path.join(new_project_folder, "data.json")
+        self.runtime.save_project(metadata, grid, path, quests)
+        toast_message += "Project saved!"
+        toast(toast_message)
 
     def load_project(self, project: str | None = None):
-        creator_screen = self.root.ids.creator_screen
-        grid = self.root.ids.creator_screen.ids.grid
-
-        grid.delete_all()
-        creator_screen.delete_all()
 
         dirname = os.path.dirname(__file__)
         demiurg_folder = os.path.dirname(dirname)
@@ -80,6 +91,8 @@ class UI(MDApp):
 
         if project is None:
             path = filechooser.open_file(title="Select project to load", filters=[(".json", "*.json")])
+            if not path:
+                return
         else:
             project_folder = os.path.join(projects_folder, project)
             path = [os.path.join(project_folder, "data.json")]
@@ -97,6 +110,12 @@ class UI(MDApp):
                     outfile.write(json_object)
             except FileExistsError:
                 toast(f"Project {title} already exists")
+
+        self.create_new_project()
+
+        creator_screen = self.root.ids.creator_screen
+        grid = self.root.ids.creator_screen.ids.grid
+        grid.clear_widgets()
 
         creator_screen.ids.project_name.text = data["metadata"]["title"]
         creator_screen.ids.project_author.text = data["metadata"]["author"]
@@ -118,6 +137,9 @@ class UI(MDApp):
             grid.add_widget(location)
             grid.locations[(location.row, location.column)] = location
             location_ids[parameters_location["location_id"]] = location
+
+            if parameters_location["is_start"]:
+                grid.start_location = location
 
         for parameters_button in data["buttons"].values():
             button = ButtonLocation(

@@ -135,6 +135,7 @@
                     size_hint_x: 0.9
                     mode: "rectangle"
                     hint_text: "Name"
+                    text: "Project title"
                     max_height: dp(80)
                     write_tab: False
                     on_text: root.update_name(self)
@@ -142,7 +143,7 @@
         MDCard:
             size_hint: 0.9, None
             height: dp(90)
-            md_bg_color: rgba("#9747FF")
+            md_bg_color: rgba("#2A2A2A")
             FloatLayout:
                 MDTextField:
                     id: project_author
@@ -156,7 +157,7 @@
         MDCard:
             size_hint: 0.9, None
             height: dp(210)
-            md_bg_color: rgba("#9747FF")
+            md_bg_color: rgba("#BC96E6")
             FloatLayout:
                 MDTextField:
                     id: project_description

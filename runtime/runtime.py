@@ -75,7 +75,7 @@ class Runtime(IRuntime):
 
             for stage_id, stage in quest.stages.items():
                 quest_dict["stages"][stage_id] = {
-                    "location_id": stage["location"].location_id.int,
+                    "location_id": str(stage["location"].location_id.int),
                     "text": stage["text"],
                     "options": {}
                 }

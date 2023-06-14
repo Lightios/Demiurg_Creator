@@ -1,4 +1,4 @@
-
+from kivy.app import App
 from kivy.lang import Builder
 from kivy.metrics import dp
 from kivy.properties import StringProperty
@@ -69,7 +69,8 @@ class QuestContent(StackLayout):
         self.menu.dismiss()
 
     def add_new_stage(self, stage_id: int | None = None, stage=None):
-        button = self.ids.add_new_stage_button
+        new_stage_button = self.ids.add_new_stage_button
+        save_button = self.ids.save_button
 
         if stage_id is None:
             # if stage_id is None, we are creating new stage using a button
@@ -82,15 +83,21 @@ class QuestContent(StackLayout):
         self.stages[stage_id] = stage
         self.add_widget(stage)
 
-        # make the button be at bottom of this layout
-        self.remove_widget(button)
-        self.add_widget(button)
+        # make the buttons be at bottom of this layout
+        self.remove_widget(new_stage_button)
+        self.remove_widget(save_button)
+
+        self.add_widget(new_stage_button)
+        self.add_widget(save_button)
 
     def save_quest(self) -> bool:
         """
         Tries to save current quest, if fails, returns False
         """
         if self.current_quest is None:
+            return False
+
+        if self.ids.starting_stage.current_item is None:
             return False
 
         for stage in self.stages.values():
@@ -123,4 +130,5 @@ class QuestContent(StackLayout):
 
             self.current_quest.stages[stage_id] = temp_dict
 
+        App.get_running_app().root.ids.creator_screen.save_quest(self.current_quest)
         return True

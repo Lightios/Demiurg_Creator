@@ -86,7 +86,7 @@ class StageOption(MDCard):
     def __init__(self, stage, option: dict | None = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.stage = stage
-        self._recreate_menu()
+        self.recreate_menu()
         self.option_id = uuid4().int
 
         if option is not None:
@@ -97,7 +97,7 @@ class StageOption(MDCard):
     def remove(self):
         self.stage.remove(self)
 
-    def _recreate_menu(self):
+    def recreate_menu(self):
         menu_items = [
             {
                 "viewclass": "OneLineIconListItem",
