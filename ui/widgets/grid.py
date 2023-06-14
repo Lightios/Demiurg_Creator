@@ -140,6 +140,8 @@ class Grid(RelativeLayout):
                                 found_location = True
 
                     if not found_location:
+                        self.column_counter[item.column] -= 1
+                        self.row_counter[item.row] -= 1
                         self.remove_widget(item)
                         self.locations.pop((new_row, new_column))
 
@@ -159,6 +161,9 @@ class Grid(RelativeLayout):
 
         if location.is_start:
             self.start_location = None
+
+        self.max_column_quantity = max(self.column_counter)
+        self.max_row_quantity = max(self.row_counter)
 
         self.remove_widget(location)
 

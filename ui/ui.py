@@ -121,8 +121,9 @@ class UI(MDApp):
         creator_screen.ids.project_author.text = data["metadata"]["author"]
         creator_screen.ids.project_description.text = data["metadata"]["description"]
 
-        grid.row_counter = data["grid_parameters"]["row_counter"]
-        grid.column_counter = data["grid_parameters"]["column_counter"]
+        # keys in JSON are always strings, we need ints here
+        grid.row_counter = {int(k): int(v) for k, v in data["grid_parameters"]["row_counter"].items()}
+        grid.column_counter = {int(k): int(v) for k, v in data["grid_parameters"]["column_counter"].items()}
         grid.max_row_quantity = data["grid_parameters"]["max_row_quantity"]
         grid.max_column_quantity = data["grid_parameters"]["max_column_quantity"]
         grid.size = data["grid_parameters"]["size"]
@@ -148,6 +149,7 @@ class UI(MDApp):
                 pos=parameters_button["pos"],
                 grid=grid
             )
+            grid.locations[(button.row, button.column)] = button
             grid.add_widget(button)
 
         for parameters_connection in data["connections"].values():
