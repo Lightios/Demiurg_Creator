@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 
 from kivy.clock import Clock
 from kivy.input.providers.mouse import MouseMotionEvent
@@ -84,7 +85,6 @@ class UI(MDApp):
         toast(toast_message)
 
     def load_project(self, project: str | None = None):
-
         dirname = os.path.dirname(__file__)
         demiurg_folder = os.path.dirname(dirname)
         projects_folder = os.path.join(demiurg_folder, "projects")
@@ -229,6 +229,15 @@ class UI(MDApp):
         self.root.ids["creator_screen"] = creator_screen
 
         self.root.ids.screen_manager.current = "creator"
+
+    def delete_project(self, project_title: str):
+        dirname = os.path.dirname(__file__)
+        demiurg_folder = os.path.dirname(dirname)
+        projects_folder = os.path.join(demiurg_folder, "projects")
+        project_folder = os.path.join(projects_folder, project_title)
+        shutil.rmtree(project_folder)
+
+        self.root.ids.menu_screen.reload_projects()
 
 
 class NavigationButton(MDCard):

@@ -12,13 +12,6 @@
             font_size: dp(20)
             halign: "left"
 
-        MDLabel:
-            text: "Last modified: "
-            pos_hint: {"x": 0.28, "center_y": 0.2}
-            font_name: "Nunito"
-            font_size: dp(15)
-            halign: "left"
-
         MDIcon:
             icon: "file-document-outline"
             pos_hint: {"center_x": 0.15, "center_y": 0.5}
@@ -37,7 +30,8 @@
             size_hint: None, None
             pos_hint: {"center_x": 0.55, "center_y": 0.5}
 
-        MDIcon:
-            icon: "dots-vertical"
+        MDIconButton:
+            icon: "delete"
             pos_hint: {"center_x": 0.05, "center_y": 0.6}
             font_size: dp(20)
+            on_press: root.show_delete_dialog()
