@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 class MyTestCase(GraphicUnitTest):
 
-    def test_adding_location(self):
+    def test_adding_quest(self):
         runtime = Runtime()
         ui =  UI(runtime)
         ui.build()
